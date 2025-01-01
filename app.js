@@ -1,4 +1,6 @@
-import { saludar, saludarHolaMundo } from './saludos.js';
+// Módulo console
+console.log('Hola Mundo');
+console.warn('Ha ocurrido un error...');
 
-console.log(saludar('Daniel'));
-console.log(saludarHolaMundo());
+// crear un objeto de error
+console.error(new Error('Ocurrió un error!'));
