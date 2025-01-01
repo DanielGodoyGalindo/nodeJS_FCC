@@ -1,15 +1,18 @@
-// Modulo process
-// The process object provides information about, and control over, the current Node.js process.
+// Modulo os
+// obtener funcionalidad del sistema operativo usado con nodejs
 
-// mostrar información del objeto process
-// console.log(process);
+// importacion 
+// const os = require('node:os');
+import os from 'node:os';
 
-// Environment
-// console.log(process.env);
+// Indica cual es el SO del equipo
+console.log(os.type());
 
-// Muestra cuales son los argumentos de ejecutar el fichero app.js
-// el primero es "node" y el segundo el fichero "app.js"
-// console.log(process.argv);
+// Directorio principal del usuario
+console.log(os.homedir());
 
-// Uso de memoria
-// console.log(process.memoryUsage());
+// Numero de segundos transcurridos desde que se inició el equipo
+console.log(os.uptime());
+
+// Información del usuario
+console.log(os.userInfo());
