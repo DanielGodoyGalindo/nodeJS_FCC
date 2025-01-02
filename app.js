@@ -1,31 +1,33 @@
-// Las promesas son objetos de JavaScript
-// Para crear una nueva promesa usamos el constructor new
-// Como parametros le pasamos dos funciones que están ya definidas
-// La primera es 'resolve' y se usa para indicar qué mensaje dar cuando se
-// cumple la promesa. La segunda función es 'reject' y con ella indicaremos
-// el mensaje cuando la promesa sea rechazada.
-// Se podría ejecutar otro código pero para este ejemplo usamos cadenas de texto
-// En este ejemplo usamos un booleano para decidir si la promesa se cumple o no
-const promesaCumplida = true;
+// Ejemplo promesas pedidos de pizza
 
-// Simulamos un tiempo asincrono con la funcion setTimeout
-// para poner en práctica la creación de una promesa.
-// Primero se define la promesa y se indica qué hacer en cada caso
-const miPromesa = new Promise((resolve, reject) => {
+// Con Math.random() se obtiene una variable entre 0 y 1 (0.1, 0.2, 0.3 ... )
+// Devolverá true si es mayor que 0.8 (mayoría de las veces)
+const statusPedido = () => {
+    return Math.random() > 0.8;
+}
+
+// Definición de la promesa
+const miPedidoDePizza = new Promise((resolve, reject) => {
     setTimeout(() => {
-        if (promesaCumplida) {
-            resolve('¡Promesa cumplida!');
+        if (statusPedido()) {
+            resolve('Pedido realizado con éxito!');
         } else {
-            reject('Promesa rechazada...');
+            reject('Ha ocurrido un error. Vuelve a realizar el pedido.');
         }
-    }, 2000);
+    }, 3000)
 });
 
-// Ahora se consume la promesa. Los parámetros 'valor' son las cadenas de texto
-// que hemos indicado en el 'resolve' y 'reject' de la promesa. Con la función
-// .then() manejamos la promesa resuelta y con .catch() manejamos 
-// la promesa rechazada. Se puede hacer solo con 'then' y pasarle
-// dos funciones como parámetros .then(resolve,reject)
-miPromesa
-    .then(valorResuleto => console.log(valorResuleto))
-    .catch(valorRechazado => console.log(valorRechazado));
+// Primera manera de consumir la promesa
+/* const manejarPedido = (mensajeDeConfirmacion) => {
+    console.log(mensajeDeConfirmacion);
+}
+const rechazarPedido = (mensajeDeRechazo) => {
+    console.log(mensajeDeRechazo);
+}
+miPedidoDePizza.then(manejarPedido, rechazarPedido); */
+
+// Segunda maneda de consumir la promesa
+// Method chaining
+miPedidoDePizza
+    .then(mensajeDeConfirmacion => console.log(mensajeDeConfirmacion))
+    .catch(mensajeDeRechazo => console.log(mensajeDeRechazo));
