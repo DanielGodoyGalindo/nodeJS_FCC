@@ -1,33 +1,57 @@
-// Ejemplo promesas pedidos de pizza
-
-// Con Math.random() se obtiene una variable entre 0 y 1 (0.1, 0.2, 0.3 ... )
-// Devolverá true si es mayor que 0.8 (mayoría de las veces)
-const statusPedido = () => {
-    return Math.random() > 0.8;
+function ordenarProducto(producto) {
+    return new Promise((resolve, reject) => {
+        console.log(`Ordenando: ${producto}`);
+        setTimeout(() => {
+            if (producto === 'taza') {
+                resolve('Ordenando una taza...')
+            } else {
+                reject('Este producto no está disponible actualmente.');
+            }
+        }, 2000);
+    });
 }
 
-// Definición de la promesa
-const miPedidoDePizza = new Promise((resolve, reject) => {
-    setTimeout(() => {
-        if (statusPedido()) {
-            resolve('Pedido realizado con éxito!');
-        } else {
-            reject('Ha ocurrido un error. Vuelve a realizar el pedido.');
-        }
-    }, 3000)
-});
-
-// Primera manera de consumir la promesa
-/* const manejarPedido = (mensajeDeConfirmacion) => {
-    console.log(mensajeDeConfirmacion);
+function procesarPedido(respuesta) {
+    return new Promise(resolve => {
+        console.log('Procesando respuesta...');
+        console.log(`La respuesta fue: "${respuesta}"`);
+        setTimeout(() => {
+            resolve('Gracias por tu compra. Disfruta tu producto!');
+        }, 4000);
+    });
 }
-const rechazarPedido = (mensajeDeRechazo) => {
-    console.log(mensajeDeRechazo);
-}
-miPedidoDePizza.then(manejarPedido, rechazarPedido); */
 
-// Segunda maneda de consumir la promesa
-// Method chaining
-miPedidoDePizza
-    .then(mensajeDeConfirmacion => console.log(mensajeDeConfirmacion))
-    .catch(mensajeDeRechazo => console.log(mensajeDeRechazo));
+// Chaining promises
+// Con la llamada de la función recibimos una promesa que es consumida con el primer .then()
+// Al terminar la función se devuelve una nueva promesa que se consume con el siguiente .then()
+// Si cualquiera de las dos funciones devuelven reject se capturan con .catch()
+/* ordenarProducto('lapiz')
+    .then(respuesta => {
+        console.log('Respuesta recibida');
+        console.log(respuesta);
+        return procesarPedido(respuesta);
+    })
+    .then(respuestaProcesada => {
+        console.log(respuestaProcesada);
+    })
+    .catch(error => {
+        console.log(error);
+    }); */
+
+// Usando async y await podemos hacer que procesos asincronos se conviertan en sincronos
+// se define una función con código asíncrono y await indica que se espere a que la respuesta
+// se usa un bloque try catch para manejar un error (en este caso un reject de cualquiera de las promesas)
+async function realizarPedido(producto) {
+    try {
+        const respuesta = await ordenarProducto(producto);
+        console.log('Respuesta recibida');
+        console.log(respuesta);
+        const respuestaProcesada = await procesarPedido(respuesta);
+        console.log(respuestaProcesada);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// Devolverá otra promesa que puede ser consumida con .then() y .catch()
+realizarPedido('lapiz');
