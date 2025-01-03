@@ -1,11 +1,9 @@
-const http = require('node:http');
-const servidor = http.createServer((req, res) => {
-    console.log('Solicitud nueva');
-    res.end('Hola mundo!');
-});
+// Modulo URL
+// Realmente es una clase de Node y no hace falta importa nada para usarse
 
-const puerto = 3000;
-
-servidor.listen(puerto, () => {
-    console.log(`El servidor esta escuchando en http://localhost:${puerto}...`);
-})
+// Ejemplo de URL y dfe como poder obtener cada una de sus partes
+const miURL = new URL('https://www.ejemplo.org/cursos/programacion?ordenar=vistas&nivel=1');
+console.log(miURL.hostname); // obtener subdominio + dominio + dominio primer nivel --> www.ejemplo.org
+console.log(miURL.pathname); // obtener ruta --> /cursos/programacion
+console.log(miURL.searchParams); // devuelve un objeto --> URLSearchParams { 'ordenar' => 'vistas', 'nivel' => '1' }
+console.log(miURL.searchParams.get('ordenar')); // obtener valor a partir de una clave --> vistas
